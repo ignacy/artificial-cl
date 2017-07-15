@@ -72,3 +72,34 @@
         ((rewrites phrase)
          (generate (random-elt (rewrites phrase))))
         (t (list phrase))))
+
+(defun generate-tree (phrase)
+  "Generate a random sentence or phrase with a complete parse tree."
+  (cond ((listp phrase)
+         (mapcar #'generate-tree phrase))
+         ((rewrites phrase)
+          (cons phrase
+                (generate-tree (random-elt (rewrites phrase)))))
+         (t (list phrase))))
+
+(defun cross-produc (fn xlist ylist)
+  (mappend #'(lambda (y)
+               (mapcar #'(lambda (x) (funcall fn x y))
+                       xlist))
+           ylist))
+
+(defun combine-all (xlist ylist)
+  "Return a list of lists formed by appending a y to an x.
+  E.g., (combine-all '((a) (b)) '((1) (2)))
+  -> ((A 1) (B 1) (A 2) (B 2))."
+  (cross-product #'append xlist ylist))
+
+(defun generate-all (phrase)
+  "Generate a list of all possible expansions of this phrase."
+  (cond ((null phrase) (list nil))
+        ((listp phrase)
+         (combine-all (generate-all (first phrase))
+                      (generate-all (rest phrase))))
+        ((rewrites phrase)
+         (mappend #'generate-all (rewrites phrase)))
+        (t (list (list phrase)))))
