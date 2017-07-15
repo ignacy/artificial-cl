@@ -6,4 +6,5 @@
   :license "Public Domain"
   :serial t
   :components ((:file "package")
-               (:file "artificial-cl")))
+               (:file "artificial-cl")
+               (:file "ch2-random-lang")))
