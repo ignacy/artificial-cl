@@ -7,4 +7,6 @@
   :serial t
   :components ((:file "package")
                (:file "artificial-cl")
-               (:file "ch2-random-lang")))
+               (:file "ch2-random-lang")
+               (:file "ch4-gps")
+               ))
